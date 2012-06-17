@@ -6,20 +6,19 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="../js/router.js"></script>
   <script>
-    
     $.SimpleRouter
-
-    // ルートを設定する
     .connect('/foo/:var', function (req) { 
-        console.log(req);
+        console.log('foo/var');
+    })
+    .connect('/.*', function (req) { 
+        console.log('general');
     })
     // Windowオブジェクトにセットする
     .deploy();
-
+    console.log(window.location.hash);
     // パスを変更し、ルーティングを発生させる
     // コンソールに 「1234」が出力される
     $.SimpleRouter.save('/foo/1234');
-    
   </script>
 </head>
 <body>

@@ -1,17 +1,16 @@
 /**
 * @fileOverview jQueryを用いたシンプルなルーティング機構
-*
+* 
 * @author amemura <aods1004@yahoo.co.jp>
 * @version 0.1 
 */
 (function (window, $) {
     "use strict";
-    
     var Route,
         Router,
-        params_exp = /\/:[a-zA-Z\-]+/g,
+        params_exp = /(\/:[a-z\-]+)/gi,
         match_exp  = /[a-z\-]+/i,
-        replace_to_string = '\\/([a-zA-Z:0-9]+)';
+        replace_to_string = '\\/([a-z0-9]+)';
 
     /**
      * ルートエンティティクラス
@@ -23,7 +22,7 @@
         this.callback = callback;
         this.map = [];
         this.matches = [];
-        this.regexp = null;
+        this.regexp = '';
         this.makeRegexp.call(this, path);
     };
     /**
@@ -35,10 +34,12 @@
             l, 
             matches  = path.match(params_exp),
             replaced = path.replace(params_exp, replace_to_string);
-        for (i = 0, l = matches.length; i < l; i += 1) {
-            this.map[i] = matches[i].match(match_exp)[0];
+        if (matches && matches.length > 0) {
+            for (i = 0, l = matches.length; i < l; i += 1) {
+                this.map[i] = matches[i].match(match_exp)[0];
+            }
         }
-        this.regexp = new RegExp('^' + replaced + '\/?$');
+        this.regexp = new RegExp('^' + replaced + '\\/?$');
     };
     
     /**
@@ -95,12 +96,11 @@
                 matches, 
                 path    = this.getPath(),
                 routes  = this.routes;
-
             for (i = 0, l = routes.length; i < l; i += 1) {
                 if (routes[i].isMatch(path)) {
                     routes[i].callback({
                         params: routes[i].makeRequestParam(),
-                        current: path, 
+                        current: path
                     });
                     break;
                 }
@@ -108,10 +108,12 @@
         }, 
         /**
          *  windowオブジェクトのhashchangeイベントにルータをセットする
+         *  IE7では動作しない。
+         *  
          *  @return {object} this
          */
         deploy: function () {
-            $(window).on('hashchange', $.proxy( function () {
+            $(window).bind('hashchange', $.proxy( function () { 
                 this.dispatch();
             }, Router));
             return this;
