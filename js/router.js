@@ -8,10 +8,10 @@
     "use strict";
     var Route,
         Router,
-        _exp_routes_param = /(\/:[a-z\-]+)/gi,
-        _exp_path_param   = /[a-z\-]+/i,
+        _exp_routes_param   = /(\/:[a-z\-]+)/gi,
+        _exp_path_param     = /[a-z\-]+/i,
         _str_routes_replace = '\\/([a-z0-9]+)', 
-        _exp_match_hash    = /#([^#]*)$/;
+        _exp_match_hash     = /#([^#]*)$/;
 
     /**
      * ルートエンティティクラス
