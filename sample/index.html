@@ -5,6 +5,22 @@
   <title>simple_jquery_router</title>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="../js/router.js"></script>
+  <script>
+    
+    $.SimpleRouter
+
+    // ルートを設定する
+    .connect('/foo/:var', function (req) { 
+        console.log(req);
+    })
+    // Windowオブジェクトにセットする
+    .deploy();
+
+    // パスを変更し、ルーティングを発生させる
+    // コンソールに 「1234」が出力される
+    $.SimpleRouter.save('/foo/1234');
+    
+  </script>
 </head>
 <body>
 </body>
